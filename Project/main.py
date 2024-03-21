@@ -11,9 +11,15 @@ from helper import (
     find_ingredient_by_id,
     create_ingredient,
     update_ingredient,
-    delete_ingredient
+    delete_ingredient,
+    list_recipes,
+    find_recipe_by_name,
+    find_recipe_by_id,
+    create_recipe,
+    update_recipe,
+    delete_recipe,
+    list_recipes_by_category
 )
-
 
 def main():
     while True:
@@ -45,9 +51,22 @@ def main():
             update_ingredient()
         elif choice == "12":
             delete_ingredient()
+        elif choice == "13":
+            list_recipes()
+        elif choice == "14":
+            find_recipe_by_name()
+        elif choice == "15":
+            find_recipe_by_id()
+        elif choice == "16":
+            create_recipe()
+        elif choice == "17":
+            update_recipe()
+        elif choice == "18":
+            delete_recipe()
+        elif choice == "19":
+            list_recipes_by_category()
         else:
             print("Invalid choice")
-
 
 def menu():
     print("Please select an option:")
@@ -55,16 +74,22 @@ def menu():
     print("1. List all categories")
     print("2. Find category by name")
     print("3. Find category by id")
-    print("4: Create category")
-    print("5: Update category")
-    print("6: Delete category")
+    print("4. Create category")
+    print("5. Update category")
+    print("6. Delete category")
     print("7. List all ingredients")
     print("8. Find ingredient by name")
     print("9. Find ingredient by id")
-    print("10: Create ingredient")
-    print("11: Update ingredient")
-    print("12: Delete ingredient")
-
+    print("10. Create ingredient")
+    print("11. Update ingredient")
+    print("12. Delete ingredient")
+    print("13. List all recipes")
+    print("14. Find recipe by name")
+    print("15. Find recipe by id")
+    print("16. Create recipe")
+    print("17. Update recipe")
+    print("18. Delete recipe")
+    print("19. List recipes by category")
 
 if __name__ == "__main__":
     main()

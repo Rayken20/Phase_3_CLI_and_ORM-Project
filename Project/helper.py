@@ -1,7 +1,9 @@
 # Import necessary modules
 
 # Helper functions for CRUD operations
-
+def exit_program():
+    print("Bon Appetit!")
+    exit()
 def list_recipes():
     recipes = Recipe.get_all()
     for recipe in recipes:
