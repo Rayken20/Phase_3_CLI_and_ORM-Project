@@ -1,48 +1,70 @@
-from recipe import Recipe
-from ingredient import Ingredient
-from category import Category
-import sqlite3
+from helper import (
+    exit_program,
+    list_categories,
+    find_category_by_name,
+    find_category_by_id,
+    create_category,
+    update_category,
+    delete_category,
+    list_ingredients,
+    find_ingredient_by_name,
+    find_ingredient_by_id,
+    create_ingredient,
+    update_ingredient,
+    delete_ingredient
+)
 
-# Database connection
-CONN = sqlite3.connect('recipes.db')
-CURSOR = CONN.cursor()
 
-# Functions for CLI operations
-def main_menu():
-    print("Welcome to Recipe Management System!")
+def main():
     while True:
-        print("1. Recipes Menu")
-        print("2. Ingredients Menu")
-        print("3. Categories Menu")
-        print("4. Exit")
-        choice = input("Enter your choice: ")
-        if choice == "1":
-            recipes_menu()
-        elif choice == "2":
-            ingredients_menu()
-        elif choice == "3":
-            categories_menu()
-        elif choice == "4":
+        menu()
+        choice = input("> ")
+        if choice == "0":
             exit_program()
+        elif choice == "1":
+            list_categories()
+        elif choice == "2":
+            find_category_by_name()
+        elif choice == "3":
+            find_category_by_id()
+        elif choice == "4":
+            create_category()
+        elif choice == "5":
+            update_category()
+        elif choice == "6":
+            delete_category()
+        elif choice == "7":
+            list_ingredients()
+        elif choice == "8":
+            find_ingredient_by_name()
+        elif choice == "9":
+            find_ingredient_by_id()
+        elif choice == "10":
+            create_ingredient()
+        elif choice == "11":
+            update_ingredient()
+        elif choice == "12":
+            delete_ingredient()
         else:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice")
 
-def recipes_menu():
-    # Implement recipes menu options
-    pass
 
-def ingredients_menu():
-    # Implement ingredients menu options
-    pass
+def menu():
+    print("Please select an option:")
+    print("0. Exit the program")
+    print("1. List all categories")
+    print("2. Find category by name")
+    print("3. Find category by id")
+    print("4: Create category")
+    print("5: Update category")
+    print("6: Delete category")
+    print("7. List all ingredients")
+    print("8. Find ingredient by name")
+    print("9. Find ingredient by id")
+    print("10: Create ingredient")
+    print("11: Update ingredient")
+    print("12: Delete ingredient")
 
-def categories_menu():
-    # Implement categories menu options
-    pass
-
-def exit_program():
-    print("Goodbye!")
-    CONN.close()
-    exit()
 
 if __name__ == "__main__":
-    main_menu()
+    main()
