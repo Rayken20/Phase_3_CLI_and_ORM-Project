@@ -5,12 +5,13 @@ CONN = sqlite3.connect('recipes.db')
 CURSOR = CONN.cursor()
 
 class Ingredient:
-    def __init__(self, name, category, quantity, unit, id=None):
+    def __init__(self, name, category, quantity, unit, recipe_id, id=None):
         self.id = id
         self.name = name
         self.category = category
         self.quantity = quantity
         self.unit = unit
+        self.recipe_id = recipe_id
 
     def __repr__(self):
         return f"<Ingredient {self.id}: {self.name}, {self.category}, {self.quantity}, {self.unit}>"
@@ -28,10 +29,11 @@ class Ingredient:
             self.id = CURSOR.lastrowid
 
     @classmethod
-    def create(cls, name, category, quantity, unit):
-        ingredient = cls(name, category, quantity, unit)
+    def create(cls, name, category, quantity, unit, recipe_id):
+        ingredient = cls(name, category, quantity, unit, recipe_id)
         ingredient.save()
         return ingredient
+
     
     def update(self):
         sql = """

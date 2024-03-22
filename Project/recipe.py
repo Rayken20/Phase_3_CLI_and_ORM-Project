@@ -5,36 +5,39 @@ CONN = sqlite3.connect('recipes.db')
 CURSOR = CONN.cursor()
 
 class Recipe:
-    def __init__(self, name, description, ingredients, instructions, category_id, id=None):
+    def __init__(self, id, name, description, instructions, category_id=None):
         self.id = id
         self.name = name
         self.description = description
-        self.ingredients = ingredients
         self.instructions = instructions
         self.category_id = category_id
+        self.ingredients = []  # Initialize ingredients list
 
     def __repr__(self):
-        return f"<Recipe {self.id}: {self.name}, {self.description}, {self.category_id}>"
+        if self.id is not None:
+            return f"<Recipe {self.id}: {self.name}, {self.description}, {self.category_id}>"
+        else:
+            return "<Recipe None: No data>"
 
     def save(self):
         if self.id:
             self.update()
         else:
             sql = """
-                INSERT INTO recipes (name, description, ingredients, instructions, category_id)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO recipes (name, description, instructions, category_id)
+                VALUES (?, ?, ?, ?)
             """
-            CURSOR.execute(sql, (self.name, self.description, self.ingredients, self.instructions, self.category_id))
+            CURSOR.execute(sql, (self.name, self.description, self.instructions, self.category_id))
             CONN.commit()
             self.id = CURSOR.lastrowid
 
     def update(self):
         sql = """
             UPDATE recipes
-            SET name = ?, description = ?, ingredients = ?, instructions = ?, category_id = ?
+            SET name = ?, description = ?, instructions = ?, category_id = ?
             WHERE id = ?
         """
-        CURSOR.execute(sql, (self.name, self.description, self.ingredients, self.instructions, self.category_id, self.id))
+        CURSOR.execute(sql, (self.name, self.description, self.instructions, self.category_id, self.id))
         CONN.commit()
 
     def delete(self):
@@ -47,10 +50,20 @@ class Recipe:
 
     @classmethod
     def list_all(cls):
-        sql = "SELECT * FROM recipes"
+        sql = "SELECT id, name, description, instructions, category_id FROM recipes"
         CURSOR.execute(sql)
         recipes_data = CURSOR.fetchall()
-        return [cls(*recipe_data) for recipe_data in recipes_data]
+        recipes = []
+        for recipe_data in recipes_data:
+            recipe = cls(*recipe_data)
+            # Fetch ingredients for each recipe
+            ingredients_sql = "SELECT * FROM ingredients WHERE recipe_id = ?"
+            CURSOR.execute(ingredients_sql, (recipe.id,))
+            ingredients_data = CURSOR.fetchall()
+            ingredients = [Ingredient(*ingredient_data) for ingredient_data in ingredients_data]
+            recipe.ingredients = ingredients
+            recipes.append(recipe)
+        return recipes
 
     @classmethod
     def find_by_name(cls, name):
@@ -73,8 +86,8 @@ class Recipe:
             return None
 
     @classmethod
-    def create(cls, name, description, ingredients, instructions, category_id):
-        recipe = cls(name, description, ingredients, instructions, category_id)
+    def create(cls, name, description, instructions, category_id):
+        recipe = cls(None, name, description, instructions, category_id)
         recipe.save()
         return recipe
 
@@ -84,3 +97,11 @@ class Recipe:
         CURSOR.execute(sql, (category_id,))
         recipes_data = CURSOR.fetchall()
         return [cls(*recipe_data) for recipe_data in recipes_data]
+
+    def list_ingredients(self):
+        sql = "SELECT * FROM ingredients WHERE recipe_id = ?"
+        CURSOR.execute(sql, (self.id,))
+        ingredients_data = CURSOR.fetchall()
+        return [Ingredient(*ingredient_data) for ingredient_data in ingredients_data]
+
+from ingredient import Ingredient

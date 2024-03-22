@@ -4,10 +4,17 @@
 def exit_program():
     print("Bon Appetit!")
     exit()
-def list_recipes():
-    recipes = Recipe.get_all()
-    for recipe in recipes:
-        print(recipe)
+# def list_all():
+#     recipes = Recipe.list_all()
+#     for recipe in recipes:
+#         print(recipe)
+def list_all():
+    recipes_data = Recipe.list_all()
+    for recipe_data in recipes_data:
+        recipe_id, name, description, instructions, ingredients, category_id = recipe_data
+        recipe_instance = Recipe(recipe_id, name, description, ingredients, instructions, category_id)
+        print(recipe_instance)
+
 
 def find_recipe_by_name():
     name = input("Enter the recipe's name: ")
@@ -137,11 +144,13 @@ def create_ingredient():
     category = input("Enter the ingredient's category: ")
     quantity = float(input("Enter the ingredient's quantity: "))
     unit = input("Enter the ingredient's unit: ")
+    recipe_id = input("Enter the recipe id for the ingredient: ")  # Add this line
     try:
-        ingredient = Ingredient.create(name, category, quantity, unit)
+        ingredient = Ingredient.create(name, category, quantity, unit, recipe_id)  
         print(f'Success: {ingredient}')
     except Exception as exc:
         print("Error creating ingredient: ", exc)
+
 
 def update_ingredient():
     id_ = input("Enter the ingredient's id: ")
@@ -170,6 +179,16 @@ def delete_ingredient():
         print(f'Ingredient {id_} deleted')
     else:
         print(f'Ingredient {id_} not found')
+
+def list_ingredients_by_recipe():
+    recipe_id = input("Enter the recipe id: ")
+    recipe = Recipe.find_by_id(recipe_id)
+    if recipe:
+        ingredients = recipe.list_ingredients()
+        for ingredient in ingredients:
+            print(ingredient)
+    else:
+        print(f"Recipe with id {recipe_id} not found.")
 
 from recipe import Recipe
 from category import Category
