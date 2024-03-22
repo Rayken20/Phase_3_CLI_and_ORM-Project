@@ -12,43 +12,6 @@ class Category:
     def __repr__(self):
         return f"<Category {self.id}: {self.name}, {self.description}>"
    
-    # @property
-    # def name(self):
-    #     return self._name
-    
-    # @name.setter
-    # def name (self, name):
-    #     #apply some logic
-    #     if isinstance (name, str) and len(name):
-    #         self._name= name
-    #     else:
-    #         raise ValueError ("Name should be a non-empty string")
-
-    # @property
-    # def description(self):
-    #     return self._description
-    
-    # @name.setter
-    # def name (self, description):
-    #     #apply some logic
-    #     if isinstance (description, str) and len(description):
-    #         self._name= description
-    #     else:
-    #         raise ValueError ("Description should be a non-empty string")
-    
-    # @property
-    # def id (self):
-    #     return self.id
-    
-    # @name.setter
-    # def name (self, id):
-    #     #apply some logic
-    #     if isinstance (id, int) and len(id):
-    #         self._name= id
-    #     else:
-    #         raise ValueError ("Id should be an integer")
- 
-
     def save(self):
         if self.id:
             self.update()
@@ -71,16 +34,15 @@ class Category:
         CONN.commit()
 
     def delete(self):
-      # Delete associated recipes first
+        # Delete associated recipes first
         sql_delete_recipes = "DELETE FROM recipes WHERE category_id = ?"
         CURSOR.execute(sql_delete_recipes, (self.id,))
         # Delete the category itself
         sql_delete_category = "DELETE FROM categories WHERE id = ?"
         CURSOR.execute(sql_delete_category, (self.id,))
         CONN.commit()
-        
 
-    # @classmethod
+    @classmethod
     def find_by_name(cls, name):
         sql = "SELECT * FROM categories WHERE name = ?"
         CURSOR.execute(sql, (name,))

@@ -27,6 +27,12 @@ class Ingredient:
             CONN.commit()
             self.id = CURSOR.lastrowid
 
+    @classmethod
+    def create(cls, name, category, quantity, unit):
+        ingredient = cls(name, category, quantity, unit)
+        ingredient.save()
+        return ingredient
+    
     def update(self):
         sql = """
             UPDATE ingredients
@@ -43,3 +49,29 @@ class Ingredient:
         """
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
+
+    @classmethod
+    def find_by_name(cls, name):
+        sql = "SELECT * FROM ingredients WHERE name = ?"
+        CURSOR.execute(sql, (name,))
+        ingredient_data = CURSOR.fetchone()
+        if ingredient_data:
+            return cls(*ingredient_data)
+        else:
+            return None
+    @classmethod
+    def find_by_id(cls, id_):
+        sql = "SELECT * FROM ingredients WHERE id = ?"
+        CURSOR.execute(sql, (id_,))
+        ingredient_data = CURSOR.fetchone()
+        if ingredient_data:
+            return cls(*ingredient_data)
+        else:
+            return None
+        
+    @classmethod
+    def get_all(cls):
+        sql = "SELECT * FROM ingredients"
+        CURSOR.execute(sql)
+        ingredients_data = CURSOR.fetchall()
+        return [cls(*ingredient_data) for ingredient_data in ingredients_data]
