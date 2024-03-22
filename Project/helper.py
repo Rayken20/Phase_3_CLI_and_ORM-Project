@@ -1,6 +1,6 @@
-# Import necessary modules
 
 # Helper functions for CRUD operations
+# Recipe
 def exit_program():
     print("Bon Appetit!")
     exit()
@@ -67,9 +67,7 @@ def list_recipes_by_category():
     for recipe in recipes:
         print(recipe)
 
-# Define other CRUD functions for ingredients and categories
-# Helper functions for CRUD operations
-
+# Cateories
 def list_categories():
     categories = Category.get_all()
     for category in categories:
@@ -118,6 +116,7 @@ def delete_category():
     else:
         print(f'Category {id_} not found')
 
+# Ingredients
 def list_ingredients():
     ingredients = Ingredient.get_all()
     for ingredient in ingredients:
@@ -178,4 +177,3 @@ from ingredient import Ingredient
 
 
 
-# Define other CRUD functions for categories
