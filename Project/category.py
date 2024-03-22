@@ -34,12 +34,14 @@ class Category:
         CONN.commit()
 
     def delete(self):
-        sql = """
-            DELETE FROM categories
-            WHERE id = ?
-        """
-        CURSOR.execute(sql, (self.id,))
+        # Delete associated recipes first
+        sql_delete_recipes = "DELETE FROM recipes WHERE category_id = ?"
+        CURSOR.execute(sql_delete_recipes, (self.id,))
+        # Delete the category itself
+        sql_delete_category = "DELETE FROM categories WHERE id = ?"
+        CURSOR.execute(sql_delete_category, (self.id,))
         CONN.commit()
+
     @classmethod
     def find_by_name(cls, name):
         sql = "SELECT * FROM categories WHERE name = ?"
@@ -49,6 +51,7 @@ class Category:
             return cls(*category_data)
         else:
             return None
+
     @classmethod
     def find_by_id(cls, id_):
         sql = "SELECT * FROM categories WHERE id = ?"
@@ -69,5 +72,5 @@ class Category:
     @classmethod
     def create(cls, name, description):
         category = cls(name, description)
-        category.save()
+        category.save()  # Use save method to insert into database
         return category
