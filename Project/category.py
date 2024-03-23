@@ -76,7 +76,7 @@ class Category:
         sql = "SELECT * FROM recipes WHERE category_id = ?"
         CURSOR.execute(sql, (self.id,))
         recipes_data = CURSOR.fetchall()
-        recipes = [Recipe(*recipe_data) for recipe_data in recipes_data]  # Use imported Recipe class
+        recipes = [Recipe(*recipe_data) for recipe_data in recipes_data] 
         return recipes
     
     @classmethod
