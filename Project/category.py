@@ -8,6 +8,7 @@ class Category:
         self.id = id
         self.name = name
         self.description = description
+        self.recipe= []
 
     def __repr__(self):
         return f"<Category {self.id}: {self.name}, {self.description}>"
@@ -68,9 +69,30 @@ class Category:
         CURSOR.execute(sql)
         categories_data = CURSOR.fetchall()
         return [cls(*category_data) for category_data in categories_data]
-
+    
+    def list_recipes(self):
+        """Lists all recipes associated with the category."""
+        # Fetch recipes from database based on category_id
+        sql = "SELECT * FROM recipes WHERE category_id = ?"
+        CURSOR.execute(sql, (self.id,))
+        recipes_data = CURSOR.fetchall()
+        recipes = [Recipe(*recipe_data) for recipe_data in recipes_data]  # Use imported Recipe class
+        return recipes
+    
     @classmethod
     def create(cls, name, description):
-        category = cls(name, description)
-        category.save()  # Use save method to insert into database
-        return category
+        existing_category = cls.find_by_name(name)
+        if existing_category:
+            print(f"Category '{name}' already exists.")
+            return existing_category
+        else:
+            try:
+                 category = cls(name, description)
+                 category.save()  # Use save method to insert into database
+                 return category
+            except Exception as exc:
+                 print("Error creating category: ", exc)
+
+    
+
+from recipe import Recipe

@@ -30,11 +30,10 @@ class Ingredient:
 
     @classmethod
     def create(cls, name, category, quantity, unit, recipe_id):
-        ingredient = cls(name, category, quantity, unit, recipe_id)
+        ingredient = cls(None, name, category, quantity, unit, recipe_id)
         ingredient.save()
         return ingredient
-
-    
+     
     def update(self):
         sql = """
             UPDATE ingredients
@@ -73,7 +72,9 @@ class Ingredient:
         
     @classmethod
     def get_all(cls):
-        sql = "SELECT * FROM ingredients"
+        sql = "SELECT * FROM ingredients WHERE recipe_id IS NOT NULL"
         CURSOR.execute(sql)
         ingredients_data = CURSOR.fetchall()
         return [cls(*ingredient_data) for ingredient_data in ingredients_data]
+
+

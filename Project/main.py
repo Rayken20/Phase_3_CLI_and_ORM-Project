@@ -1,7 +1,3 @@
-import sqlite3
-from recipe import Recipe
-from category import Category
-from ingredient import Ingredient
 from helper import (
     exit_program,
     list_categories,
@@ -23,7 +19,7 @@ from helper import (
     update_recipe,
     delete_recipe,
     list_recipes_by_category,
-     list_ingredients_by_recipe
+    list_ingredients_by_recipe
 )
 
 def main():
@@ -71,7 +67,7 @@ def main():
         elif choice == "19":
             list_recipes_by_category()
         elif choice == "20":
-            list_ingredients_by_recipe()  # New option to list ingredients by recipe
+            list_ingredients_by_recipe()  
         else:
             print("Invalid choice")
 

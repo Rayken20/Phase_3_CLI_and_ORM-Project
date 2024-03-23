@@ -4,16 +4,10 @@
 def exit_program():
     print("Bon Appetit!")
     exit()
-# def list_all():
-#     recipes = Recipe.list_all()
-#     for recipe in recipes:
-#         print(recipe)
 def list_all():
-    recipes_data = Recipe.list_all()
-    for recipe_data in recipes_data:
-        recipe_id, name, description, instructions, ingredients, category_id = recipe_data
-        recipe_instance = Recipe(recipe_id, name, description, ingredients, instructions, category_id)
-        print(recipe_instance)
+  recipes = Recipe.list_all()
+  for recipe in recipes:
+    print(recipe) 
 
 
 def find_recipe_by_name():
@@ -70,15 +64,21 @@ def delete_recipe():
 
 def list_recipes_by_category():
     category_id = input("Enter the category id: ")
-    recipes = Recipe.find_by_category(category_id)
+    recipes = Recipe.list_by_category(category_id)
     for recipe in recipes:
         print(recipe)
 
-# Cateories
+# Categories
 def list_categories():
     categories = Category.get_all()
+    unique_categories = set()  # Use a set to store unique category names
+
     for category in categories:
-        print(category)
+        # Check if the category name is already in the set
+        if category.name not in unique_categories:
+            print(category)
+            unique_categories.add(category.name)  # Add the category name to the set
+
 
 def find_category_by_name():
     name = input("Enter the category's name: ")
@@ -93,11 +93,16 @@ def find_category_by_id():
 def create_category():
     name = input("Enter the category's name: ")
     description = input("Enter the category's description: ")
-    try:
-        category = Category.create(name, description)
-        print(f'Success: {category}')
-    except Exception as exc:
-        print("Error creating category: ", exc)
+    existing_category = Category.find_by_name(name)
+    if existing_category:
+        print(f"Category '{name}' already exists.")
+    else:
+        try:
+            category = Category.create(name, description)
+            print(f'Success: {category}')
+        except Exception as exc:
+            print("Error creating category: ", exc)
+
 
 def update_category():
     id_ = input("Enter the category's id: ")

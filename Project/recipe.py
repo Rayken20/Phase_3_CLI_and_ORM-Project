@@ -105,3 +105,4 @@ class Recipe:
         return [Ingredient(*ingredient_data) for ingredient_data in ingredients_data]
 
 from ingredient import Ingredient
+                                                            

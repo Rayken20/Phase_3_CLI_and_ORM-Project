@@ -49,19 +49,22 @@ CURSOR.executemany("""
 
 # Insert sample data into ingredients table
 ingredients_data = [
-    ('Eggs', 'Protein', 2, 'pieces'),
-    ('Bacon', 'Protein', 3, 'slices'),
-    ('Tomato', 'Vegetable', 1, 'piece'),
-    ('Bread', 'Grain', 2, 'slices'),
-    ('Lettuce', 'Vegetable', 1, 'cup'),
-    ('Chicken Breast', 'Protein', 1, 'piece'),
-    ('Rice', 'Grain', 1, 'cup'),
-    ('Broccoli', 'Vegetable', 1, 'cup'),
-    ('Salmon Fillet', 'Protein', 1, 'piece')
+    ('Eggs', 'Protein', 2, 'pieces', 1),  # recipe_id=1 (Scrambled Eggs)
+    ('Bacon', 'Protein', 3, 'slices', 1),  # recipe_id=1 (Scrambled Eggs)
+    ('Tomato', 'Vegetable', 1, 'piece', 1),  # recipe_id=1 (Scrambled Eggs)
+    ('Bread', 'Grain', 2, 'slices', 2),  # recipe_id=2 (BLT Sandwich)
+    ('Lettuce', 'Vegetable', 1, 'cup', 2),  # recipe_id=2 (BLT Sandwich)
+    ('Tomato', 'Vegetable', 1, 'piece', 2),  # recipe_id=2 (BLT Sandwich)  # Added for consistency
+    ('Chicken Breast', 'Protein', 1, 'piece', 3),  # recipe_id=3 (Grilled Chicken with Rice)
+    ('Rice', 'Grain', 1, 'cup', 3),  # recipe_id=3 (Grilled Chicken with Rice)
+    ('Broccoli', 'Vegetable', 1, 'cup', 3),  # recipe_id=3 (Grilled Chicken with Rice)
+    ('Salmon Fillet', 'Protein', 1, 'piece', 4)  # recipe_id=4 (Salmon with Roasted Vegetables)
 ]
 
+
+
 CURSOR.executemany("""
-    INSERT INTO ingredients (name, category, quantity, unit) VALUES (?, ?, ?, ?)
+    INSERT INTO ingredients (name, category, quantity, unit, recipe_id) VALUES (?, ?, ?, ?, ?)
 """, ingredients_data)
 
 # Insert sample data into recipes table
@@ -75,14 +78,6 @@ recipes_data = [
 CURSOR.executemany("""
     INSERT INTO recipes (name, description, instructions, category_id) VALUES (?, ?, ?, ?)
 """, recipes_data)
-
-# Update recipe IDs in ingredients table
-CURSOR.execute("""
-    UPDATE ingredients
-    SET recipe_id = (
-        SELECT id FROM recipes WHERE recipes.name || ' ' || recipes.description LIKE '%' || ingredients.name || '%'
-    )
-""")
 
 CONN.commit()
 
