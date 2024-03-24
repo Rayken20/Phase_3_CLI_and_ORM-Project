@@ -23,14 +23,14 @@ def find_recipe_by_id():
 def create_recipe():
     name = input("Enter the recipe's name: ")
     description = input("Enter the recipe's description: ")
-    ingredients = input("Enter the recipe's ingredients: ")
     instructions = input("Enter the recipe's instructions: ")
     category_id = input("Enter the category id for the recipe: ")
     try:
-        recipe = Recipe.create(name, description, ingredients, instructions, category_id)
+        recipe = Recipe.create(name, description, instructions, category_id)
         print(f'Success: {recipe}')
     except Exception as exc:
         print("Error creating recipe: ", exc)
+
 
 def update_recipe():
     id_ = input("Enter the recipe's id: ")
@@ -40,19 +40,20 @@ def update_recipe():
             recipe.name = name
             description = input("Enter the recipe's new description: ")
             recipe.description = description
-            ingredients = input("Enter the recipe's new ingredients: ")
-            recipe.ingredients = ingredients
             instructions = input("Enter the recipe's new instructions: ")
             recipe.instructions = instructions
             category_id = input("Enter the new category id for the recipe: ")
-            recipe.category = category_id
-
+            recipe.category_id = category_id 
+           
+            ingredients = input("Enter the recipe's new ingredients: ")
+            
             recipe.update()
             print(f'Success: {recipe}')
         except Exception as exc:
             print("Error updating recipe: ", exc)
     else:
         print(f'Recipe {id_} not found')
+
 
 def delete_recipe():
     id_ = input("Enter the recipe's id: ")

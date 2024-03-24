@@ -1,6 +1,5 @@
 import sqlite3
 
-# Database connection
 CONN = sqlite3.connect('recipes.db')
 CURSOR = CONN.cursor()
 
@@ -11,13 +10,15 @@ class Recipe:
         self.description = description
         self.instructions = instructions
         self.category_id = category_id
-        self.ingredients = []  # Initialize ingredients list
+        self.ingredients = []  
 
     def __repr__(self):
         if self.id is not None:
-            return f"<Recipe {self.id}: {self.name}, {self.description}, {self.category_id}>"
+            category_info = f", Category: {self.category_id}" if self.category_id is not None else ""
+            return f"<Recipe {self.id}: {self.name}, {self.description}{category_info}>"
         else:
             return "<Recipe None: No data>"
+
 
     def save(self):
         if self.id:
@@ -87,7 +88,7 @@ class Recipe:
 
     @classmethod
     def create(cls, name, description, instructions, category_id):
-        recipe = cls(None, name, description, instructions, category_id)
+        recipe = cls(name, description, instructions, category_id)
         recipe.save()
         return recipe
 

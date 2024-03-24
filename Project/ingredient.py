@@ -1,6 +1,5 @@
 import sqlite3
 
-# Database connection
 CONN = sqlite3.connect('recipes.db')
 CURSOR = CONN.cursor()
 
@@ -25,7 +24,7 @@ class Ingredient:
             self.update()
         else:
             CURSOR.execute(sql, (self.name, self.category, self.quantity, self.unit, self.recipe_id))
-            self.id = CURSOR.lastrowid  # Fetching last inserted row ID
+            self.id = CURSOR.lastrowid  
             CONN.commit()
 
     @classmethod
