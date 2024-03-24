@@ -17,30 +17,30 @@ class Ingredient:
         return f"<Ingredient {self.id}: {self.name}, {self.category}, {self.quantity}, {self.unit}>"
 
     def save(self):
+        sql = """
+            INSERT INTO ingredients (name, category, quantity, unit, recipe_id)
+            VALUES (?, ?, ?, ?, ?)
+        """
         if self.id:
             self.update()
         else:
-            sql = """
-                INSERT INTO ingredients (name, category, quantity, unit)
-                VALUES (?, ?, ?, ?)
-            """
-            CURSOR.execute(sql, (self.name, self.category, self.quantity, self.unit))
+            CURSOR.execute(sql, (self.name, self.category, self.quantity, self.unit, self.recipe_id))
+            self.id = CURSOR.lastrowid  # Fetching last inserted row ID
             CONN.commit()
-            self.id = CURSOR.lastrowid
 
     @classmethod
     def create(cls, name, category, quantity, unit, recipe_id):
-        ingredient = cls(None, name, category, quantity, unit, recipe_id)
+        ingredient = cls(name, category, quantity, unit, recipe_id)
         ingredient.save()
         return ingredient
      
     def update(self):
         sql = """
             UPDATE ingredients
-            SET name = ?, category = ?, quantity = ?, unit = ?
+            SET name = ?, category = ?, quantity = ?, unit = ?, recipe_id = ?
             WHERE id = ?
         """
-        CURSOR.execute(sql, (self.name, self.category, self.quantity, self.unit, self.id))
+        CURSOR.execute(sql, (self.name, self.category, self.quantity, self.unit, self.recipe_id, self.id))
         CONN.commit()
 
     def delete(self):
@@ -60,6 +60,7 @@ class Ingredient:
             return cls(*ingredient_data)
         else:
             return None
+
     @classmethod
     def find_by_id(cls, id_):
         sql = "SELECT * FROM ingredients WHERE id = ?"
@@ -76,5 +77,3 @@ class Ingredient:
         CURSOR.execute(sql)
         ingredients_data = CURSOR.fetchall()
         return [cls(*ingredient_data) for ingredient_data in ingredients_data]
-
-

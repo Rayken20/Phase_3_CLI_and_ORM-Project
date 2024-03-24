@@ -13,17 +13,25 @@ The one-to-many relationship will be between recipes and ingredients (each recip
 - Search for categories, recipes, and ingredients by name and id.
 
 ## Model Classes:
-1. Category:
+1. category:
 Attributes: id, name, description
 Methods: create, delete, get_all, find_by_id and name, list_recipes
 
-2. Recipe:
+2. recipe:
 Attributes: id, name, description, instructions, category_id
 Methods: create, delete, get_all, find_by_id and name, list_ingredients
 
-3. Ingredient:
+3. ingredient:
 Attributes: id, name, category, quantity, unit, recipe_id
 Methods: create, delete, get_all, find_by_id and name
+
+4. helper
+Contains functions that abstract away complex and repetitive tasks and provide a simpler user interface
+for perfoming basic CRUD operations.
+
+5. Main
+contains CLI interface for the recipe application. Has a loop that displays a menu and calls helper functions based on 
+users' choice
 
 ## CREATING A VIRTUAL ENVIRONMENT
 ## To get started, run the following commands on the terminal
