@@ -34,11 +34,9 @@ class Category:
         CURSOR.execute(sql, (self.name, self.description, self.id))
         CONN.commit()
 
-    def delete(self):
-        # Delete associated recipes first
+    def delete(self):        
         sql_delete_recipes = "DELETE FROM recipes WHERE category_id = ?"
-        CURSOR.execute(sql_delete_recipes, (self.id,))
-        # Delete the category itself
+        CURSOR.execute(sql_delete_recipes, (self.id,))      
         sql_delete_category = "DELETE FROM categories WHERE id = ?"
         CURSOR.execute(sql_delete_category, (self.id,))
         CONN.commit()
@@ -71,8 +69,7 @@ class Category:
         return [cls(*category_data) for category_data in categories_data]
     
     def list_recipes(self):
-        """Lists all recipes associated with the category."""
-        # Fetch recipes from database based on category_id
+        """Lists all recipes associated with the category."""        
         sql = "SELECT * FROM recipes WHERE category_id = ?"
         CURSOR.execute(sql, (self.id,))
         recipes_data = CURSOR.fetchall()
@@ -88,7 +85,7 @@ class Category:
         else:
             try:
                  category = cls(name, description)
-                 category.save()  # Use save method to insert into database
+                 category.save()  
                  return category
             except Exception as exc:
                  print("Error creating category: ", exc)

@@ -1,8 +1,8 @@
-# Phase_3_CLI_and_ORM-Project
-Welcome to the Recipe Manager CLI! This command-line application allows you to manage and organize recipes, ingredients, and categories easily. It includes three model classes: Recipe, category, and Ingredient. 
+# Phase_3_CLI_and_ORM-Project:
+Welcome to the Recipe Manager CLI! This command-line application allows users to manage and organize recipes, ingredients, and categories easily. It includes three model classes: Recipe, category, and Ingredient. 
 
 ## One to many relationship
-The one-to-many relationship will be between recipes and ingredients (each recipe can have multiple ingredients), and between category and recipe( each category can have many recipes)
+The one-to-many relationship is between recipes and ingredients (each recipe can have multiple ingredients), and between category and recipe( each category can have many recipes)
 
 ## Features
 - Create, delete, and display categories.

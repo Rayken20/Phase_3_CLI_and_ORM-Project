@@ -88,7 +88,7 @@ class Recipe:
 
     @classmethod
     def create(cls, name, description, instructions, category_id):
-        recipe = cls(name, description, instructions, category_id)
+        recipe = cls(None, name, description, instructions, category_id)
         recipe.save()
         return recipe
 
