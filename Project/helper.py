@@ -103,8 +103,6 @@ def create_category():
             print(f'Success: {category}')
         except Exception as exc:
             print("Error creating category: ", exc)
-
-
 def update_category():
     id_ = input("Enter the category's id: ")
     if category := Category.find_by_id(id_):
@@ -114,20 +112,33 @@ def update_category():
             description = input("Enter the category's new description: ")
             category.description = description
 
-            category.update()
-            print(f'Success: {category}')
+            if category.update():
+                print(f'Category {id_} updated successfully.')
+            else:
+                print(f'Failed to update category {id_}.')
         except Exception as exc:
             print("Error updating category: ", exc)
     else:
         print(f'Category {id_} not found')
 
+
 def delete_category():
-    id_ = input("Enter the category's id: ")
-    if category := Category.find_by_id(id_):
-        category.delete()
-        print(f'Category {id_} deleted')
+    category_id = input("Enter the ID of the category you want to delete: ")
+    try:
+        category_id = int(category_id)
+    except ValueError:
+        print("Invalid input. Please enter a valid integer ID.")
+        return
+
+    category = Category.find_by_id(category_id)
+    if category:
+        if Category.delete(category_id):
+            print(f"Category with ID {category_id} deleted successfully.")
+        else:
+            print(f"Failed to delete category with ID {category_id}.")
     else:
-        print(f'Category {id_} not found')
+        print(f"No category found with ID {category_id}.")
+
 
 # Ingredients
 def list_ingredients():

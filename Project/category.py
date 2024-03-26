@@ -25,22 +25,52 @@ class Category:
             CONN.commit()
             self.id = CURSOR.lastrowid
 
+    ## Perfom CRUD Operations
+    @classmethod
+    def create(cls, name, description):
+        existing_category = cls.find_by_name(name)
+        if existing_category:
+            print(f"Category '{name}' already exists.")
+            return existing_category
+        else:
+            try:
+                 category = cls(name, description)
+                 category.save()  
+                 return category
+            except Exception as exc:
+                 print("Error creating category: ", exc)
+
+
+
     def update(self):
-        sql = """
-            UPDATE categories
-            SET name = ?, description = ?
-            WHERE id = ?
-        """
-        CURSOR.execute(sql, (self.name, self.description, self.id))
-        CONN.commit()
+        """Updates the category's information in the database."""
+        try:
+            sql = """
+                UPDATE categories
+                SET name = ?, description = ?
+                WHERE id = ?
+            """
+            CURSOR.execute(sql, (self.name, self.description, self.id))
+            CONN.commit()
+            print(f"Category with id {self.id} updated successfully.")
+            return True
+        except Exception as exc:
+            print(f"Error updating category with id {self.id}: {exc}")
+            return False
+        
+    @classmethod
+    def delete(cls, category_id):
+        """Deletes a category with the given ID from the database."""
+        try:
+            sql_delete_category = "DELETE FROM categories WHERE id = ?"
+            CURSOR.execute(sql_delete_category, (category_id,))
+            CONN.commit()
+            return True 
+        except Exception as exc:
+            print(f"Error deleting category with id {category_id}: {exc}")
+            return False
 
-    def delete(self):        
-        sql_delete_recipes = "DELETE FROM recipes WHERE category_id = ?"
-        CURSOR.execute(sql_delete_recipes, (self.id,))      
-        sql_delete_category = "DELETE FROM categories WHERE id = ?"
-        CURSOR.execute(sql_delete_category, (self.id,))
-        CONN.commit()
-
+    ##Find by attributes
     @classmethod
     def find_by_name(cls, name):
         sql = "SELECT * FROM categories WHERE name = ?"
@@ -68,6 +98,7 @@ class Category:
         categories_data = CURSOR.fetchall()
         return [cls(*category_data) for category_data in categories_data]
     
+    ##Showcase one-to-many relationships    
     def list_recipes(self):
         """Lists all recipes associated with the category."""        
         sql = "SELECT * FROM recipes WHERE category_id = ?"
@@ -76,20 +107,6 @@ class Category:
         recipes = [Recipe(*recipe_data) for recipe_data in recipes_data] 
         return recipes
     
-    @classmethod
-    def create(cls, name, description):
-        existing_category = cls.find_by_name(name)
-        if existing_category:
-            print(f"Category '{name}' already exists.")
-            return existing_category
-        else:
-            try:
-                 category = cls(name, description)
-                 category.save()  
-                 return category
-            except Exception as exc:
-                 print("Error creating category: ", exc)
-
-    
+   
 
 from recipe import Recipe
