@@ -1,15 +1,15 @@
 
 # Helper functions for CRUD operations
-# Recipe
+
 def exit_program():
     print("Bon Appetit!")
     exit()
+
+    # Recipe
 def list_all():
   recipes = Recipe.list_all()
   for recipe in recipes:
     print(recipe) 
-
-
 def find_recipe_by_name():
     name = input("Enter the recipe's name: ")
     recipe = Recipe.find_by_name(name)
@@ -72,13 +72,13 @@ def list_recipes_by_category():
 # Categories
 def list_categories():
     categories = Category.get_all()
-    unique_categories = set()  # Use a set to store unique category names
+    unique_categories = set()  
 
     for category in categories:
         # Check if the category name is already in the set
         if category.name not in unique_categories:
             print(category)
-            unique_categories.add(category.name)  # Add the category name to the set
+            unique_categories.add(category.name)  
 
 
 def find_category_by_name():
@@ -140,76 +140,5 @@ def delete_category():
         print(f"No category found with ID {category_id}.")
 
 
-# Ingredients
-def list_ingredients():
-    ingredients = Ingredient.get_all()
-    for ingredient in ingredients:
-        print(ingredient)
-
-def find_ingredient_by_name():
-    name = input("Enter the ingredient's name: ")
-    ingredient = Ingredient.find_by_name(name)
-    print(ingredient) if ingredient else print(f'Ingredient {name} not found')
-
-def find_ingredient_by_id():
-    id_ = input("Enter the ingredient's id: ")
-    ingredient = Ingredient.find_by_id(id_)
-    print(ingredient) if ingredient else print(f'Ingredient {id_} not found')
-
-def create_ingredient():
-    name = input("Enter the ingredient's name: ")
-    category = input("Enter the ingredient's category: ")
-    quantity = float(input("Enter the ingredient's quantity: "))
-    unit = input("Enter the ingredient's unit: ")
-    recipe_id = input("Enter the recipe id for the ingredient: ")  # Add this line
-    try:
-        ingredient = Ingredient.create(name, category, quantity, unit, recipe_id)  
-        print(f'Success: {ingredient}')
-    except Exception as exc:
-        print("Error creating ingredient: ", exc)
-
-
-def update_ingredient():
-    id_ = input("Enter the ingredient's id: ")
-    if ingredient := Ingredient.find_by_id(id_):
-        try:
-            name = input("Enter the ingredient's new name: ")
-            ingredient.name = name
-            category = input("Enter the ingredient's new category: ")
-            ingredient.category = category
-            quantity = float(input("Enter the ingredient's new quantity: "))
-            ingredient.quantity = quantity
-            unit = input("Enter the ingredient's new unit: ")
-            ingredient.unit = unit
-
-            ingredient.update()
-            print(f'Success: {ingredient}')
-        except Exception as exc:
-            print("Error updating ingredient: ", exc)
-    else:
-        print(f'Ingredient {id_} not found')
-
-def delete_ingredient():
-    id_ = input("Enter the ingredient's id: ")
-    if ingredient := Ingredient.find_by_id(id_):
-        ingredient.delete()
-        print(f'Ingredient {id_} deleted')
-    else:
-        print(f'Ingredient {id_} not found')
-
-def list_ingredients_by_recipe():
-    recipe_id = input("Enter the recipe id: ")
-    recipe = Recipe.find_by_id(recipe_id)
-    if recipe:
-        ingredients = recipe.list_ingredients()
-        for ingredient in ingredients:
-            print(ingredient)
-    else:
-        print(f"Recipe with id {recipe_id} not found.")
-
 from recipe import Recipe
 from category import Category
-from ingredient import Ingredient
-
-
-

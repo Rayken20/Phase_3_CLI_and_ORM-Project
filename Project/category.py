@@ -40,10 +40,7 @@ class Category:
             except Exception as exc:
                  print("Error creating category: ", exc)
 
-
-
     def update(self):
-        """Updates the category's information in the database."""
         try:
             sql = """
                 UPDATE categories
@@ -57,6 +54,7 @@ class Category:
         except Exception as exc:
             print(f"Error updating category with id {self.id}: {exc}")
             return False
+
         
     @classmethod
     def delete(cls, category_id):

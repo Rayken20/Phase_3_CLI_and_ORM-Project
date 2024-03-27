@@ -57,12 +57,6 @@ class Recipe:
         recipes = []
         for recipe_data in recipes_data:
             recipe = cls(*recipe_data)
-            # Fetch ingredients for each recipe
-            ingredients_sql = "SELECT * FROM ingredients WHERE recipe_id = ?"
-            CURSOR.execute(ingredients_sql, (recipe.id,))
-            ingredients_data = CURSOR.fetchall()
-            ingredients = [Ingredient(*ingredient_data) for ingredient_data in ingredients_data]
-            recipe.ingredients = ingredients
             recipes.append(recipe)
         return recipes
 
@@ -99,11 +93,6 @@ class Recipe:
         recipes_data = CURSOR.fetchall()
         return [cls(*recipe_data) for recipe_data in recipes_data]
 
-    def list_ingredients(self):
-        sql = "SELECT * FROM ingredients WHERE recipe_id = ?"
-        CURSOR.execute(sql, (self.id,))
-        ingredients_data = CURSOR.fetchall()
-        return [Ingredient(*ingredient_data) for ingredient_data in ingredients_data]
 
-from ingredient import Ingredient
+
                                                             
