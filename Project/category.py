@@ -48,8 +48,7 @@ class Category:
                 WHERE id = ?
             """
             CURSOR.execute(sql, (self.name, self.description, self.id))
-            CONN.commit()
-            print(f"Category with id {self.id} updated successfully.")
+            CONN.commit()  # Added CONN.commit() to save changes to the database
             return True
         except Exception as exc:
             print(f"Error updating category with id {self.id}: {exc}")

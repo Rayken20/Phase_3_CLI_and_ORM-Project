@@ -32,6 +32,12 @@ class Recipe:
             CONN.commit()
             self.id = CURSOR.lastrowid
 
+    @classmethod
+    def create(cls, name, description, instructions, category_id):
+        recipe = cls(None, name, description, instructions, category_id)
+        recipe.save()
+        return recipe
+    
     def update(self):
         sql = """
             UPDATE recipes
@@ -79,12 +85,6 @@ class Recipe:
             return cls(*recipe_data)
         else:
             return None
-
-    @classmethod
-    def create(cls, name, description, instructions, category_id):
-        recipe = cls(None, name, description, instructions, category_id)
-        recipe.save()
-        return recipe
 
     @classmethod
     def list_by_category(cls, category_id):
