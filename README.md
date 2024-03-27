@@ -1,35 +1,27 @@
 # Phase_3_CLI_and_ORM-Project:
-Welcome to the Recipe Manager CLI! This command-line application allows users to manage and organize recipes, ingredients, and categories easily. It includes three model classes: Recipe, category, and Ingredient. 
-
+Welcome to the Recipe Manager CLI! This command-line application allows users to manage and organize recipes and categories easily. It includes two model classes: Recipe and category.
 ## One to many relationship
-The one-to-many relationship is between recipes and ingredients (each recipe can have multiple ingredients), and between category and recipe( each category can have many recipes)
+The one-to-many relationship is between category and recipe( each category can have many recipes)
 
 ## Features
 - Create, delete, and display categories.
 - Create, delete, and display recipes.
 - View recipes belonging to a specific category.
-- Create, delete, and display ingredients.
-- View ingredients used in a specific recipe.
-- Search for categories, recipes, and ingredients by name and id.
+- Search for categories and recipes by name and id.
 
 ## Model Classes:
 1. category:
 Attributes: id, name, description
-Methods: create, delete, get_all, find_by_id and name, list_recipes
+Methods: create, delete, get_all, find_by_id and name, and list_recipes
 
 2. recipe:
 Attributes: id, name, description, instructions, category_id
-Methods: create, delete, get_all, find_by_id and name, list_ingredients
-
-3. ingredient:
-Attributes: id, name, category, quantity, unit, recipe_id
 Methods: create, delete, get_all, find_by_id and name
-
-4. helper
+3. helper
 Contains functions that abstract away complex and repetitive tasks and provide a simpler user interface
 for perfoming basic CRUD operations.
 
-5. Main
+4. Main
 contains CLI interface for the recipe application. Has a loop that displays a menu and calls helper functions based on 
 users' choice
 
